@@ -1,48 +1,48 @@
-class Nodo:
+class Node:
     def __init__(self, info):
         self.info = info
-        self.prox = None
+        self.next = None
 
-class ListaEnc:
+class LinkedList:
     def __init__(self):
         self.inicio = None
         self.tamanho = 0
 
-    def vazia(self):
+    def empty(self):
         return self.inicio == None
     
-    def imprime(self):
+    def printList(self):
         aux = self.inicio
         
         while (aux != None):
-            print(f"Valor: {aux.info}")
-            aux = aux.prox
+            print(f"value: {aux.info}")
+            aux = aux.next
     
-    def exclui(self, posicao):
-        if (not self.vazia() and posicao > 0):
-            if (posicao == 1):
-                self.inicio = self.inicio.prox
+    def deleteNode(self, position):
+        if (not self.empty() and position > 0):
+            if (position == 1):
+                self.inicio = self.inicio.next
                 self.tamanho -= 1
 
             else:
                 i = 1
                 aux = self.inicio
                 ant = None
-                while(i < posicao and aux != None):
+                while(i < position and aux != None):
                     ant = aux
-                    aux = aux.prox
+                    aux = aux.next
                     i += 1
                 
                 if (aux != None):
-                    ant.prox = aux.prox
+                    ant.next = aux.next
                     self.tamanho -= 1
     
-    def insere(self, posicao, valor):
-        if (posicao > 0):
-            novo = Nodo(valor)
+    def insert(self, position, value):
+        if (position > 0):
+            novo = Node(value)
             
-            if (posicao == 1):
-                novo.prox = self.inicio
+            if (position == 1):
+                novo.next = self.inicio
                 self.inicio = novo
                 self.tamanho += 1
             
@@ -50,101 +50,94 @@ class ListaEnc:
                 aux = self.inicio
                 i = 1
                 
-                while (i < posicao - 1 and aux != None):
-                    aux = aux.prox
+                while (i < position - 1 and aux != None):
+                    aux = aux.next
                     i += 1
                 
                 if (aux != None):
-                    novo.prox = aux.prox
-                    aux.prox = novo
+                    novo.next = aux.next
+                    aux.next = novo
                     self.tamanho += 1
 
-    def posicao(self, valor):
+    def position(self, value):
         aux = self.inicio
         i = 1
         while (aux != None):
-            if (aux.info == valor):
+            if (aux.info == value):
                 return i
-            aux = aux.prox
+            aux = aux.next
             i += 1
         return 0
     
-    def valor(self, posicao):
-        if (posicao > 0):
+    def value(self, position):
+        if (position > 0):
             aux = self.inicio
             i = 1
-            while (i < posicao and aux != None):
-                aux = aux.prox
+            while (i < position and aux != None):
+                aux = aux.next
                 i += 1
 
-            if (i == posicao and aux != None):
+            if (i == position and aux != None):
                 return aux.info
 
         return -1
 
-    def getTamanho(self):
+    def getSize(self):
         return self.tamanho
-    
-    def getTamanhoDois(self):
-        aux = self.inicio
-        tam = 0
-
-        while (aux != None):
-            tam += 1
-            aux = aux.prox
         
-        return tam
-        
-    def comparaListas(self, lista2):
+    def compareLists(self, lista2):
         aux1 = self.inicio
         aux2 = lista2.inicio
 
-        if (self.getTamanho() == lista2.getTamanho()):
+        if (self.getSize() == lista2.getSize()):
 
             while (aux1 != None and aux2 != None):
                 if (aux1.info != aux2.info):
                     return False
 
-                aux1 = aux1.prox
-                aux2 = aux2.prox
+                aux1 = aux1.next
+                aux2 = aux2.next
 
             return True
             
         return False
 
-    def inverterLista(self):
+    def reverseList(self):
         aux = self.inicio
         listaContigua = []
 
         while (aux != None):
             listaContigua.append(aux.info)
-            aux = aux.prox
+            aux = aux.next
 
-        novaLista = ListaEnc()
+        novaLista = LinkedList()
         
         cont = 1
         for i in range(len(listaContigua)-1, -1, -1):
-            novaLista.insere(cont, listaContigua[i])
+            novaLista.insert(cont, listaContigua[i])
             cont += 1
 
         return novaLista
         
-    def destroi(self):
+    def destroy(self):
         self.inicio = None
 
 
-lista = ListaEnc()
-lista.insere(1, '1')
+lista = LinkedList()
+lista.insert(1, '1')
 
-lista.insere(2, '2')
+lista.insert(2, '2')
 
-lista2 = ListaEnc()
-lista2.insere(1, '1')
-lista2.insere(2, '2')
+lista2 = LinkedList()
+lista2.insert(1, '1')
+lista2.insert(2, '2')
 
 print("lista")
-lista2.imprime()
+lista2.printList()
 
 print("lista invertida")
-listaInvertida = lista2.inverterLista()
-listaInvertida.imprime()
+listaInvertida = lista2.reverseList()
+listaInvertida.printList()
+
+print(lista.getSize())
+print(lista.position(2))
